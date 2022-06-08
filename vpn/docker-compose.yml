@@ -1,0 +1,55 @@
+version: "3.6"
+
+services:
+  vpn:
+    image: dperson/openvpn-client
+    container_name: openvpn-client
+    cap_add:
+      - net_admin
+    security_opt:
+      - label:disable
+    networks:
+      - default
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=1
+    volumes:
+      - /dev/net:/dev/net:z
+      - ./openvpn:/vpn
+    entrypoint: "bash -c"
+    command: "exit 0"
+    restart: always
+    entrypoint: ["/sbin/tini", "--", "/usr/bin/openvpn.sh"]
+    command: '-p "51413" -p "51413;udp" -f ""'
+    tty: true
+
+  jackett:
+    network_mode: "service:openvpn-client"
+    depends_on:
+      - openvpn-client
+
+  qbittorrent:
+    network_mode: "service:openvpn-client"
+    depends_on:
+      - openvpn-client
+
+  sonarr:
+    links:
+      - openvpn-client:qbittorrent
+    networks:
+      - default
+    depends_on:
+      - qbittorrent
+      - jackett
+
+  radarr:
+    links:
+      - openvpn-client:qbittorrent
+    networks:
+      - default
+    depends_on:
+      - qbittorrent
+      - jackett
