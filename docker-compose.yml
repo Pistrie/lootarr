@@ -33,8 +33,8 @@ services:
     environment:
       - WEBUI_PORT=8085
     volumes:
-      - /path/to/appdata/config:/config
-      - /path/to/downloads:/downloads
+      - ./qbittorrent/config:/config
+      - ./downloads:/downloads
     ports:
       - 8085:8080
       - 6885:6881
@@ -46,9 +46,9 @@ services:
     container_name: radarr
     env_file: .env
     volumes:
-      - /path/to/data:/config
+      - ./radarr/config:/config
       - /path/to/movies:/movies #optional
-      - /path/to/downloadclient-downloads:/downloads #optional
+      - ./downloads:/downloads #optional
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -58,9 +58,9 @@ services:
     container_name: sonarr
     env_file: .env
     volumes:
-      - /path/to/data:/config
+      - ./sonarr/config:/config
       - /path/to/tvseries:/tv #optional
-      - /path/to/downloadclient-downloads:/downloads #optional
+      - ./downloads:/downloads #optional
     ports:
       - 8989:8989
     restart: unless-stopped
