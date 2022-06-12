@@ -2,7 +2,7 @@
 
 The script in this repository will create a full pirac- I mean Linux ISO downloading setup, so you don't have to.
 
-A lot of the script is based on bobarr, but tweaked so it works with my setup. I found that bobarr was not as intuitive as just using the normal containers, so I recreated his setup but using vanilla containers.
+A lot of the script is based on bobarr, but tweaked so it works with my setup. I found that bobarr was not as intuitive as just using the normal containers, so I recreated his setup but instead only using vanilla containers.
 
 ## What does this contain?
 
