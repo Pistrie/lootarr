@@ -4,17 +4,42 @@ networks:
   default:
 
 services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+      - 9117:9117 # jackett
+      - 8085:8080 # qbittorrent
+      - 6885:6881 # qbittorrent
+      - 6885:6881/udp # qbittorrent
+    restart: always
+    environment:
+      # See https://github.com/qdm12/gluetun/wiki
+      - VPN_SERVICE_PROVIDER=
+      - VPN_TYPE=openvpn
+      # OpenVPN:
+      - OPENVPN_USER=
+      - OPENVPN_PASSWORD=
+      # Timezone for accurate log times
+      - TZ=
+
   jackett:
     image: lscr.io/linuxserver/jackett:latest
     container_name: jackett
     env_file: .env
+    network_mode: "service:gluetun"
     environment:
       - AUTO_UPDATE=true #optional
     volumes:
       - ./jackett/config:/config
       - ./jackett/downloads:/downloads
-    ports:
-      - 9117:9117
     restart: unless-stopped
 
   flaresolverr:
@@ -30,15 +55,12 @@ services:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     env_file: .env
+    network_mode: "service:gluetun"
     environment:
       - WEBUI_PORT=8085
     volumes:
       - ./qbittorrent/config:/config
       - ./downloads:/downloads
-    ports:
-      - 8085:8080
-      - 6885:6881
-      - 6885:6881/udp
     restart: unless-stopped
 
   radarr:
@@ -47,8 +69,8 @@ services:
     env_file: .env
     volumes:
       - ./radarr/config:/config
-      - /path/to/movies:/movies #optional
-      - ./downloads:/downloads #optional
+      - /path/to/movies:/movies
+      - ./downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -59,8 +81,8 @@ services:
     env_file: .env
     volumes:
       - ./sonarr/config:/config
-      - /path/to/tvseries:/tv #optional
-      - ./downloads:/downloads #optional
+      - /path/to/tvseries:/tv
+      - ./downloads:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
