@@ -1,8 +1,5 @@
 version: "3.6"
 
-networks:
-  default:
-
 services:
   gluetun:
     image: qmcgaw/gluetun
@@ -16,19 +13,20 @@ services:
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
       - 9117:9117 # jackett
-      - 8085:8080 # qbittorrent
+      - 8085:8085 # qbittorrent
       - 6885:6881 # qbittorrent
       - 6885:6881/udp # qbittorrent
-    restart: always
     environment:
       # See https://github.com/qdm12/gluetun/wiki
       - VPN_SERVICE_PROVIDER=
       - VPN_TYPE=openvpn
+      - SERVER_REGIONS=
       # OpenVPN:
       - OPENVPN_USER=
       - OPENVPN_PASSWORD=
       # Timezone for accurate log times
       - TZ=
+    restart: always
 
   jackett:
     image: lscr.io/linuxserver/jackett:latest
