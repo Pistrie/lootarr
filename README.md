@@ -6,7 +6,7 @@ A lot of the script is based on bobarr, but tweaked so it works with my setup. I
 
 ## What does this contain?
 
-Currently, the script will setup 6 containers:
+Currently, the script will set up 6 containers:
 - gluetun       - A vpn container with automatic kill switch
 - jackett       - API support for torrent trackers
 - flaresolverr  - Proxy server to bypass Cloadflare protection
@@ -67,7 +67,7 @@ You can update the containers using:
 ### Jackett
 
 - Go to `http://<ip>:9117` and set flaresolverr url to `http://<ip>:8191` in the configuration
-- Setup your trackers, then copy the API key on the top right of the screen
+- Set up your trackers, then copy the API key on the top right of the screen
 
 ### Radarr/Sonarr
 
