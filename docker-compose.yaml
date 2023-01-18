@@ -12,7 +12,7 @@ services:
       - 8888:8888/tcp # HTTP proxy
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
-      - 9117:9117 # jackett
+      - 9696:9696 # prowlarr
       - 8085:8085 # qbittorrent
       - 6885:6881 # qbittorrent
       - 6885:6881/udp # qbittorrent
@@ -28,16 +28,13 @@ services:
       - TZ=
     restart: always
 
-  jackett:
-    image: lscr.io/linuxserver/jackett:latest
-    container_name: jackett
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
     env_file: .env
     network_mode: "service:gluetun"
-    environment:
-      - AUTO_UPDATE=true #optional
     volumes:
-      - ./jackett/config:/config
-      - ./jackett/downloads:/downloads
+      - ./prowlarr/config:/config
     restart: unless-stopped
 
   flaresolverr:
