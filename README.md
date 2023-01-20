@@ -8,7 +8,7 @@ A lot of the script is based on bobarr, but tweaked so it works with my setup. I
 
 Currently, the script will set up 6 containers:
 - gluetun       - A vpn container with automatic kill switch
-- jackett       - API support for torrent trackers
+- prowlarr      - API support for torrent trackers
 - flaresolverr  - Proxy server to bypass Cloadflare protection
 - qbittorrent   - BitTorrent client
 - radarr        - Downloads movies using a torrent client like qbittorrent
@@ -27,10 +27,8 @@ Currently, the script will set up 6 containers:
 - run `cp sample.env .env` and edit this `.env` file so it matches your needs
 - open `docker-compose.yaml` and edit the configuration of `gluetun` ([gluetun documentation](https://github.com/qdm12/gluetun/wiki/)):
   - set `VPN_SERVICE_PROVIDER` to your provider
-  - set `SERVER_REGIONS` to the location or locations of your choice
-  - set `OPENVPN_USER` to your openvpn username
-  - set `OPENVPN_PASSWORD` to your openvpn password
-  - set `TZ` to your timezone, for example `Europe/Amsterdam`
+  - set `VPN_TYPE` to either openvpn or wireguard
+  - set the remaining environment variables to your needs (check the gluetun documentation)
 
 #### Define the path of your movies and shows folders
 
@@ -66,19 +64,17 @@ You can update the containers using:
 
 ### Jackett
 
-- Go to `http://<ip>:9117` and set flaresolverr url to `http://<ip>:8191` in the configuration
-- Set up your trackers, then copy the API key on the top right of the screen
+- Go to `http://<ip>:9696` and set flaresolverr url to `http://localhost:8191` in the configuration
+- Set up your trackers, then copy the API key from settings -> general -> API key
 
 ### Radarr/Sonarr
 
-Radarr and Sonarr have a lot of options, not just when configuring, so I would recommend that you look around on the internet for some guidance on how to use these.
-
-_A written guide will gladly be merged into this repo_
+Take a look at the prowlarr quickstart guide for instructions on how to set up sonarr and radarr -> https://wiki.servarr.com/prowlarr/quick-start-guide#apps
 
 ## Services
 
 Here's a list of the services that you can use:
-- jackett: `http://<ip>:9117`
+- prowlarr: `http://<ip>:9696`
 - qbittorrent: `http://<ip>:8085`
 - radarr: `http://<ip>:7878`
 - sonarr: `http://<ip>:8989`
