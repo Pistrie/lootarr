@@ -17,6 +17,8 @@ services:
       - 8085:8085 # qbittorrent
       - 6885:6881 # qbittorrent
       - 6885:6881/udp # qbittorrent
+      - 7878:7878 # radarr
+      - 8989:8989 # sonarr
     environment:
       # See https://github.com/qdm12/gluetun/wiki
       - VPN_SERVICE_PROVIDER=
@@ -64,22 +66,20 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     env_file: .env
+    network_mode: "service:gluetun"
     volumes:
       - ./radarr/config:/config
       - /path/to/movies:/movies
       - ./downloads:/downloads
-    ports:
-      - 7878:7878
     restart: unless-stopped
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     env_file: .env
+    network_mode: "service:gluetun"
     volumes:
       - ./sonarr/config:/config
       - /path/to/tvseries:/tv
       - ./downloads:/downloads
-    ports:
-      - 8989:8989
     restart: unless-stopped
