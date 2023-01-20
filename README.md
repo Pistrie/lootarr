@@ -28,7 +28,7 @@ Currently, the script will set up 6 containers:
 - open `docker-compose.yaml` and edit the configuration of `gluetun` ([gluetun documentation](https://github.com/qdm12/gluetun/wiki/)):
   - set `VPN_SERVICE_PROVIDER` to your provider
   - set `VPN_TYPE` to either openvpn or wireguard
-  - set the remaining environment variables to your needs (check the gluetun documentation)
+  - set the remaining environment variables to your needs, for example the regions you want to use (check the gluetun documentation)
 
 #### Define the path of your movies and shows folders
 
@@ -62,14 +62,7 @@ You can update the containers using:
 
 ## Configuration
 
-### Jackett
-
-- Go to `http://<ip>:9696` and set flaresolverr url to `http://localhost:8191` in the configuration
-- Set up your trackers, then copy the API key from settings -> general -> API key
-
-### Radarr/Sonarr
-
-Take a look at the prowlarr quickstart guide for instructions on how to set up sonarr and radarr -> https://wiki.servarr.com/prowlarr/quick-start-guide#apps
+Take a look at the prowlarr quickstart guide for instructions on how to set up prowlarr, sonarr, and radarr -> https://wiki.servarr.com/prowlarr/quick-start-guide
 
 ## Services
 
