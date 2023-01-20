@@ -13,17 +13,20 @@ services:
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
       - 9696:9696 # prowlarr
+      - 8191:8191 # flaresolverr
       - 8085:8085 # qbittorrent
       - 6885:6881 # qbittorrent
       - 6885:6881/udp # qbittorrent
     environment:
       # See https://github.com/qdm12/gluetun/wiki
       - VPN_SERVICE_PROVIDER=
-      - VPN_TYPE=openvpn
-      - SERVER_REGIONS=
-      # OpenVPN:
+      - VPN_TYPE=
+      # Edit this if you want to use OpenVPN:
       - OPENVPN_USER=
       - OPENVPN_PASSWORD=
+      # Edit this if you want to use Wireguard:
+      - WIREGUARD_PRIVATE_KEY=
+      - WIREGUARD_ADDRESSES=
       # Timezone for accurate log times
       - TZ=
     restart: always
@@ -40,10 +43,9 @@ services:
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
+    network_mode: "service:gluetun"
     environment:
       - LOG_LEVEL=info
-    ports:
-      - 8191:8191
     restart: unless-stopped
 
   qbittorrent:
